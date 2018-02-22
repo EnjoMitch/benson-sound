@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="src" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -22,6 +23,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="src" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -35,7 +37,11 @@
 		<Linker>
 			<Add option="`sdl-config --libs`" />
 		</Linker>
+		<Unit filename="src/BensonSound.cpp" />
+		<Unit filename="src/BensonSound.h" />
 		<Unit filename="src/GLRGB.h" />
+		<Unit filename="src/SDLStuff.cpp" />
+		<Unit filename="src/SDLStuff.h" />
 		<Unit filename="src/Sound.cpp" />
 		<Unit filename="src/mixer3.cpp" />
 		<Extensions>
