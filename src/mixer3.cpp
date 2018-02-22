@@ -1,11 +1,15 @@
 
 //#include "stdafx.h"
-#include "SDL.h"
-#include "SDL_audio.h"
-#include <stdlib.h>
-#include <math.h>
-#include <process.h>
-#include <Windows.h>
+#ifdef __linux__
+    #include <SDL/SDL.h>
+    #include <SDL/SDL_audio.h>
+#elif _WIN32
+    #include <SDL.h>
+    #include <SDL_audio.h>
+    #include <Windows.h>
+#else
+
+#endif
 
 SDL_Surface   *screen;
 SDL_AudioSpec  spec;
@@ -43,13 +47,13 @@ void play( void )
   sound_len     = g_Samples * 2 * 2;
 
   spec.freq     = 44100;
-  spec.format   = AUDIO_S16SYS; 
+  spec.format   = AUDIO_S16SYS;
   //spec.channels = 1;               // PDS: Mono for now..
   spec.channels = 2;               // PDS: Stereo now..
   spec.silence  = 0;
   spec.samples  = g_Samples;
   spec.padding  = 0;
-  spec.size     = 0;  
+  spec.size     = 0;
   spec.userdata = 0;
 
   spec.callback = Callback16;
@@ -68,7 +72,7 @@ void play( void )
 //--------------------------------------------------------------------------------------------
 int main( int argc, char* argv[] )
 {
-  DWORD dwLastSound = 0;
+  //DWORD dwLastSound = 0;
 
   init_sdl();
 
@@ -79,17 +83,17 @@ int main( int argc, char* argv[] )
   play();
 
   SDL_Event event;
-  BOOL      running = TRUE;
+  bool running = true;
 
-  while( running ) 
+  while( running )
   {
-    while( SDL_PollEvent( &event ) ) 
+    while( SDL_PollEvent( &event ) )
     {
-      // GLOBAL KEYS / EVENTS 
-      switch (event.type) 
+      // GLOBAL KEYS / EVENTS
+      switch (event.type)
       {
         case SDL_KEYDOWN:
-          switch (event.key.keysym.sym) 
+          switch (event.key.keysym.sym)
           {
             case SDLK_ESCAPE:
               running = false;
@@ -116,7 +120,7 @@ int main( int argc, char* argv[] )
   SDL_Quit();
 
   return EXIT_SUCCESS;
-} 
+}
 
 
 

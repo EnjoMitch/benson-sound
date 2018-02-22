@@ -1,9 +1,33 @@
 //#include "stdafx.h"
-#include "SDL.h"
-#include "SDL_audio.h"
-#include <stdlib.h>
-#include <math.h>
-#include <windows.h>
+
+#ifdef __linux__
+    #include <SDL/SDL.h>
+    #include <SDL/SDL_audio.h>
+
+    #define BOOL bool
+    #define BYTE unsigned short
+    #define FALSE false
+    #define TRUE true
+    #define DWORD unsigned int
+
+    #include <time.h>
+    double GetTickCount(void)
+    {
+      struct timespec now;
+      if (clock_gettime(CLOCK_MONOTONIC, &now))
+        return 0;
+      return now.tv_sec * 1000.0 + now.tv_nsec / 1000000.0;
+    }
+#elif _WIN32
+    #include <SDL.h>
+    #include <SDL_audio.h>
+    #include <Windows.h>
+#else
+
+#endif
+
+#include <cstdlib>
+#include <cmath>
 
 float g_nSampleChunkCount      = 0.0;
 float g_fSampleCount           = 0.0;
@@ -18,6 +42,9 @@ short *asWaveBenson;
 #define NUM_SAMPLE_LR_PAIRS (2048 * 256)   // Keep it a multiple of the callback sample buffer size
 
 int g_NewWaveSize = NUM_SAMPLE_LR_PAIRS;
+
+
+
 
 /*
 SAMPLE_PULSE:
@@ -108,7 +135,7 @@ ASCII HI = 'Z' = $5A
 double Interpolate( double a, double b, double fRatio )
 {
   return ( b - a ) * fRatio + a;
-} 
+}
 
 //char  g_Hello[] = "ARRIVING CONSIDERABLY LATER THAN FORECAST ";
 
@@ -177,23 +204,23 @@ int TransposeFill( short *psSource, short *psDest, double freqWanted, int nSampl
   double freqBase  = 331.0F;
   double fRatio    = freqWanted / freqBase;
 
-  int k = 0; 
+  int k = 0;
 
-  //for( double f = 0; f < (double) nSamplesToFill; f += fRatio ) 
-  for( double f = 0; ; f += fRatio ) 
-  { 
+  //for( double f = 0; f < (double) nSamplesToFill; f += fRatio )
+  for( double f = 0; ; f += fRatio )
+  {
     // Left..
-    psDest[ k ++ ] = Interpolate( psSource[ (int) f * 2 ], psSource[ (int) ( f * 2 ) + 2 ],  ( f * 2 ) - (float) floor( f * 2 ) ); 
+    psDest[ k ++ ] = Interpolate( psSource[ (int) f * 2 ], psSource[ (int) ( f * 2 ) + 2 ],  ( f * 2 ) - (float) floor( f * 2 ) );
 
     // Right
-    psDest[ k ++ ] = Interpolate( psSource[ (int) ( f * 2 ) + 1 ], psSource[ (int) ( f * 2 ) + 3 ],  ((f*2)+1) - (float) floor( (f*2) + 1 ) ); 
+    psDest[ k ++ ] = Interpolate( psSource[ (int) ( f * 2 ) + 1 ], psSource[ (int) ( f * 2 ) + 3 ],  ((f*2)+1) - (float) floor( (f*2) + 1 ) );
 
     if( k >= nSamplesToFill )
       break;
   }
 
   return k;
-} 
+}
 
 //--------------------------------------------------------------------------------------------
 // GetCharFreq()
