@@ -67,21 +67,8 @@ void play( void )
   SDL_PauseAudio( 0 );
 }
 
-//--------------------------------------------------------------------------------------------
-// main()
-//--------------------------------------------------------------------------------------------
-int main( int argc, char* argv[] )
+void SDLMainLoop()
 {
-  //DWORD dwLastSound = 0;
-
-  init_sdl();
-
-  SoundInit();
-
-  SayBensonText( "THIS IS A BENSON TEST" );
-
-  play();
-
   SDL_Event event;
   bool running = true;
 
@@ -116,6 +103,24 @@ int main( int argc, char* argv[] )
 
     SDL_Delay(1);
   }
+}
+
+//--------------------------------------------------------------------------------------------
+// main()
+//--------------------------------------------------------------------------------------------
+int main( int argc, char* argv[] )
+{
+  //DWORD dwLastSound = 0;
+
+  init_sdl();
+
+  SoundInit();
+
+  SayBensonText( "THIS IS A BENSON TEST" );
+
+  play();
+
+  SDLMainLoop();
 
   SDL_Quit();
 

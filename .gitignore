@@ -30,6 +30,8 @@
 *.exe
 *.out
 *.app
-/*.depend
+*.depend
+*.layout
 /bin/*
 /obj/*
+

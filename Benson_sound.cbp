@@ -35,8 +35,9 @@
 		<Linker>
 			<Add option="`sdl-config --libs`" />
 		</Linker>
-		<Unit filename="cb.bmp" />
-		<Unit filename="main.cpp" />
+		<Unit filename="src/GLRGB.h" />
+		<Unit filename="src/Sound.cpp" />
+		<Unit filename="src/mixer3.cpp" />
 		<Extensions>
 			<envvars />
 			<code_completion />
