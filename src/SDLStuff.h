@@ -1,7 +1,7 @@
 #ifndef SDLSTUFF_H
 #define SDLSTUFF_H
 
-
+class SDL_Surface;
 class SDLStuff
 {
     public:
@@ -14,6 +14,8 @@ class SDLStuff
 
     private:
         void Init();
+
+        SDL_Surface * screen;
 };
 
 #endif // SDLSTUFF_H

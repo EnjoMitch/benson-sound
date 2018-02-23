@@ -11,8 +11,6 @@
 
 #endif
 
-SDL_Surface   *screen;
-
 SDLStuff::SDLStuff()
 {
     Init();

@@ -19,17 +19,19 @@
 
 //extern int  g_Samples;
 
-short *asWavePulse;
-short *asWaveBenson;
+const int BensonSound::NUM_SAMPLE_LR_PAIRS = (2048 * 256);   // Keep it a multiple of the callback sample buffer size
+const int BensonSound::g_NewWaveSize = NUM_SAMPLE_LR_PAIRS;
 
-#define NUM_SAMPLE_LR_PAIRS (2048 * 256)   // Keep it a multiple of the callback sample buffer size
-int g_NewWaveSize = NUM_SAMPLE_LR_PAIRS;
-
-BensonSound::~BensonSound(){}
 BensonSound::BensonSound(const SDLStuff & sdlStuff)
 : m_sdlStuff(sdlStuff)
 {
     SoundInit();
+}
+
+BensonSound::~BensonSound()
+{
+    if (asWavePulse)    delete asWavePulse;
+    if (asWaveBenson)   delete asWaveBenson;
 }
 
 //char  g_Hello[] = "ARRIVING CONSIDERABLY LATER THAN FORECAST ";
@@ -42,7 +44,7 @@ short g_Pulse[] = { -32767, 32767, -32767, 32767 };
 //--------------------------------------------------------------------------------------------
 // CreateBasePulseSample()
 //--------------------------------------------------------------------------------------------
-void CreateBasePulseSample( void )
+void BensonSound::CreateBasePulseSample( void )
 {
   asWavePulse  = (short*) malloc( NUM_SAMPLE_LR_PAIRS * sizeof( short ) * 2 * 2 );
 
@@ -92,7 +94,6 @@ void CreateBasePulseSample( void )
 void BensonSound::SoundInit( void )
 {
   CreateBasePulseSample();
-
   asWaveBenson = (short*) malloc( NUM_SAMPLE_LR_PAIRS * sizeof( short ) * 2 * 2 );
 }
 
@@ -101,7 +102,7 @@ void BensonSound::SoundInit( void )
 //--------------------------------------------------------------------------------------------
 void BensonSound::SayBensonText( const std::string & text )
 {
-    const char *pszText = text.c_str();
+  const char *pszText = text.c_str();
   memset( asWaveBenson,  0, NUM_SAMPLE_LR_PAIRS * sizeof( short ) * 2 * 2 );
 
   int o = 0;
@@ -133,15 +134,12 @@ void BensonSound::SayBensonText( const std::string & text )
   }
 }
 
-
-int g_WaveOffset = 0;
-
 //--------------------------------------------------------------------------------------------
 // FillBuffer()
 //
 // nSamplesThisChunk will be 2048 for mono, or 4096 for stereo
 //--------------------------------------------------------------------------------------------
-void FillBuffer( short *pChunk, int nSamplesThisChunk, BensonSound * benson )
+void BensonSound::FillBuffer( short *pChunk, int nSamplesThisChunk )
 {
   //int     nChannels = 2;
   short  *pWaveSrc = asWaveBenson;
@@ -190,14 +188,14 @@ void FillBuffer( short *pChunk, int nSamplesThisChunk, BensonSound * benson )
     // PDS: Silence once we've reached the end..
     memset( &pChunk[ nRemainingSamplesInWave ], 0, ( nRemainingSamplesInWave << 1 )  );
 
-    benson->SayBensonText( "GREETINGS FROM SPARKY" );
+    SayBensonText( "GREETINGS FROM SPARKY" );
     g_WaveOffset = 0;
   }
 }
 
-float g_nSampleChunkCount      = 0.0;
+//float g_nSampleChunkCount      = 0.0;
 //float g_fSampleCount           = 0.0;
-float g_fTotalSampleCount      = 0.0;
+//float g_fTotalSampleCount      = 0.0;
 //float g_fTotalSampleCount2     = 0.0;
 //--------------------------------------------------------------------------------------------
 // Callback16()
@@ -211,10 +209,10 @@ void Callback16( void *userdata, Uint8 *pbStream, int nDataLen )
   Uint8  *pChunk   = pbStream;
 
   BensonSound * benson = static_cast<BensonSound*>(userdata);
-  FillBuffer( (short*) pChunk, nRemainingSamples, benson );
+  benson->FillBuffer( (short*) pChunk, nRemainingSamples);
 
-  g_fTotalSampleCount += nRemainingSamples;
-  g_nSampleChunkCount ++;
+  //g_fTotalSampleCount += nRemainingSamples;
+  //g_nSampleChunkCount ++;
 }
 
 //--------------------------------------------------------------------------------------------
