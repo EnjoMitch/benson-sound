@@ -21,9 +21,7 @@ class BensonSound
         void SoundInit();
         void CreateBasePulseSample();
 
-
         const SDLStuff & m_sdlStuff;
-
         short * asWavePulse = 0;
         short * asWaveBenson = 0;
         int g_WaveOffset = 0;

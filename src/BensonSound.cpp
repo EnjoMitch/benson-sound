@@ -10,10 +10,7 @@
     #include <SDL/SDL.h>
     #include <SDL/SDL_audio.h>
 
-    #define BOOL bool
     #define BYTE unsigned char
-    #define FALSE false
-    #define TRUE true
     #define DWORD unsigned int
 #endif
 
@@ -202,7 +199,7 @@ void BensonSound::FillBuffer( short *pChunk, int nSamplesThisChunk )
 //
 // PDS: Requests 'len' bytes of samples - this is NOT the number of samples!!
 //--------------------------------------------------------------------------------------------
-void Callback16( void *userdata, Uint8 *pbStream, int nDataLen )
+static void Callback16( void *userdata, Uint8 *pbStream, int nDataLen )
 {
   int     nSamples = nDataLen >> 1;
   int     nRemainingSamples = nSamples;
