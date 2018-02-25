@@ -21,6 +21,7 @@ class BensonSound
     private:
         void SoundInit();
         void CreateBasePulseSample();
+        int BensonFillWavePulseGetIdx(int o, short pulseVal, short * wavePulseToFill);
 
         const SDLStuff & m_sdlStuff;
         std::unique_ptr<short> uptrAsWavePulse;
