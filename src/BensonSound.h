@@ -2,6 +2,7 @@
 #define BENSONSOUND_H
 
 #include <string>
+#include <memory>
 
 class SDLStuff;
 class BensonSound
@@ -13,7 +14,7 @@ class BensonSound
         void SayBensonText( const std::string & text ); // string secures code from buffer overflow
         void Play();
 
-        void FillBuffer( short *pChunk, int nSamplesThisChunk );
+        void FillBuffer( unsigned char * pChunk, int nSamplesThisChunk );
 
     protected:
 
@@ -22,9 +23,10 @@ class BensonSound
         void CreateBasePulseSample();
 
         const SDLStuff & m_sdlStuff;
-        short * asWavePulse = 0;
-        short * asWaveBenson = 0;
+        std::unique_ptr<short> uptrAsWavePulse;
+        std::unique_ptr<short> uptrAsWaveBenson;
         int g_WaveOffset = 0;
+        unsigned dwBackoffStart = 0;
         static const int NUM_SAMPLE_LR_PAIRS;
         static const int g_NewWaveSize;
         static const int WAVE_LENGTH;

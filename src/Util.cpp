@@ -38,7 +38,7 @@ float Util::GetCharFreq( char c )
 //--------------------------------------------------------------------------------------------
 // TransposeFill()
 //--------------------------------------------------------------------------------------------
-int Util::TransposeFill( short *psSource, short *psDest, double freqWanted, int nSamplesToFill )
+int Util::TransposeFill( const short * psSource, short * psDest, double freqWanted, int nSamplesToFill )
 {
   memset( psDest,  0, nSamplesToFill * sizeof( short ) * 2 );
 
