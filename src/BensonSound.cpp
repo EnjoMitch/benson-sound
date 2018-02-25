@@ -22,6 +22,8 @@ const int BensonSound::WAVE_LENGTH = NUM_SAMPLE_LR_PAIRS * sizeof( short ) * 2 *
 
 BensonSound::BensonSound(const SDLStuff & sdlStuff)
 : m_sdlStuff(sdlStuff)
+, vecAsWavePulse(WAVE_LENGTH)
+, vecAsWaveBenson(WAVE_LENGTH)
 {
     SoundInit();
 }
@@ -42,10 +44,7 @@ short g_Pulse[] = { -32767, 32767, -32767, 32767 };
 //--------------------------------------------------------------------------------------------
 void BensonSound::CreateBasePulseSample( void )
 {
-  uptrAsWavePulse = std::unique_ptr<short>(new short[WAVE_LENGTH]);
-  short * const asWavePulse = uptrAsWavePulse.get();
-  memset( asWavePulse,  0, WAVE_LENGTH);
-
+  short * const asWavePulse = vecAsWavePulse.data();
   //int nSamplesThisChunk = 2048;
   int o = 0;
 
@@ -80,7 +79,6 @@ int BensonSound::BensonFillWavePulseGetIdx(int o, short pulseVal, short * wavePu
 void BensonSound::SoundInit( void )
 {
   CreateBasePulseSample();
-  uptrAsWaveBenson = std::unique_ptr<short>(new short[WAVE_LENGTH]);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -88,9 +86,8 @@ void BensonSound::SoundInit( void )
 //--------------------------------------------------------------------------------------------
 void BensonSound::SayBensonText( const std::string & text )
 {
-  const char *pszText = text.c_str();
-        short * const asWaveBenson = uptrAsWaveBenson.get();
-  const short * const asWavePulse  = uptrAsWavePulse.get();
+  const char * const pszText = text.c_str();
+  short * const asWaveBenson = vecAsWaveBenson.data();
   memset( asWaveBenson,  0, WAVE_LENGTH);
 
   int o = 0;
@@ -115,7 +112,7 @@ void BensonSound::SayBensonText( const std::string & text )
       continue;
     }
 
-    int   nSamplesFilled = Util::TransposeFill( asWavePulse, &asWaveBenson[ o ], f, nSamplesPerChar );
+    int   nSamplesFilled = Util::TransposeFill( vecAsWavePulse.data(), &asWaveBenson[ o ], f, nSamplesPerChar );
 
     // PDS: This is the actual number of samples (2 samples per sample pair - ie - this is NOT the number of pairs but the number of SHORTS
     o += nSamplesFilled;
@@ -130,7 +127,7 @@ void BensonSound::SayBensonText( const std::string & text )
 void BensonSound::FillBuffer( unsigned char * pChunk, int nSamplesThisChunk )
 {
   //int     nChannels = 2;
-  const short * const pWaveSrc = uptrAsWaveBenson.get();
+  const short * const pWaveSrc = vecAsWaveBenson.data();
 
   if( g_WaveOffset < 0 )
     return;

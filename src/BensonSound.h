@@ -2,7 +2,7 @@
 #define BENSONSOUND_H
 
 #include <string>
-#include <memory>
+#include <vector>
 
 class SDLStuff;
 class BensonSound
@@ -24,8 +24,8 @@ class BensonSound
         int BensonFillWavePulseGetIdx(int o, short pulseVal, short * wavePulseToFill);
 
         const SDLStuff & m_sdlStuff;
-        std::unique_ptr<short> uptrAsWavePulse;
-        std::unique_ptr<short> uptrAsWaveBenson;
+        std::vector<short> vecAsWavePulse;
+        std::vector<short> vecAsWaveBenson;
         int g_WaveOffset = 0;
         unsigned dwBackoffStart = 0;
         static const int NUM_SAMPLE_LR_PAIRS;
