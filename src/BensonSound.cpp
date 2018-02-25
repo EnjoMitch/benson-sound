@@ -56,33 +56,7 @@ void BensonSound::CreateBasePulseSample( void )
   for( int m = 0; m < 2048; m ++ )
   {
     //int nPulseIndex = 0;
-
-    /*
     // PDS: Pulse..
-    for( int c = 0; c < 64; c ++ )
-    {
-      asWavePulse[ o ++ ] =  sHi;  // L
-      asWavePulse[ o ++ ] =  sHi;  // R
-    }
-
-    for( int c = 0; c < 64; c ++ )
-    {
-      asWavePulse[ o ++ ] =  sLo;  // L
-      asWavePulse[ o ++ ] =  sLo;  // R
-    }
-
-    for( int c = 0; c < 64; c ++ )
-    {
-      asWavePulse[ o ++ ] =  sHi;  // L
-      asWavePulse[ o ++ ] =  sHi;  // R
-    }
-
-    for( int c = 0; c < 64; c ++ )
-    {
-      asWavePulse[ o ++ ] =  sLo;  // L
-      asWavePulse[ o ++ ] =  sLo;  // R
-    }
-    */
     o = BensonFillWavePulseGetIdx(o, sHi, asWavePulse);
     o = BensonFillWavePulseGetIdx(o, sLo, asWavePulse);
     o = BensonFillWavePulseGetIdx(o, sHi, asWavePulse);
