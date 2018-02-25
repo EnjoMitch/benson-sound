@@ -4,10 +4,10 @@
 #include "OperatingSystem.h"
 
 #ifdef _WIN32
-    #include <SDL.h>
+    //#include <SDL.h>
     #include <SDL_audio.h>
 #else
-    #include <SDL/SDL.h>
+    //#include <SDL/SDL.h>
     #include <SDL/SDL_audio.h>
 
     #define BYTE unsigned char
