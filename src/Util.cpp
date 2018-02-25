@@ -30,7 +30,7 @@ float Util::GetCharFreq( char c )
   if( ( c < '0' ) || ( c > 'Z' ) )
     return 0;
 
-  float f = 331.0f + ( ( c - '0' ) * 9.66667f );
+  const float f = 331.0f + ( ( c - '0' ) * 9.66667f );
 
   return f;
 }
@@ -42,8 +42,8 @@ int Util::TransposeFill( const short * psSource, short * psDest, double freqWant
 {
   memset( psDest,  0, nSamplesToFill * sizeof( short ) * 2 );
 
-  double freqBase  = 331.0F;
-  double fRatio    = freqWanted / freqBase;
+  const double freqBase  = 331.0F;
+  const double fRatio    = freqWanted / freqBase;
 
   int k = 0;
 
