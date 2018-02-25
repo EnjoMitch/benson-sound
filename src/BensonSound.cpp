@@ -18,6 +18,7 @@
 
 const int BensonSound::NUM_SAMPLE_LR_PAIRS = (2048 * 256);   // Keep it a multiple of the callback sample buffer size
 const int BensonSound::g_NewWaveSize = NUM_SAMPLE_LR_PAIRS;
+const int BensonSound::WAVE_LENGTH = NUM_SAMPLE_LR_PAIRS * sizeof( short ) * 2 * 2;
 
 BensonSound::BensonSound(const SDLStuff & sdlStuff)
 : m_sdlStuff(sdlStuff)
@@ -43,15 +44,15 @@ short g_Pulse[] = { -32767, 32767, -32767, 32767 };
 //--------------------------------------------------------------------------------------------
 void BensonSound::CreateBasePulseSample( void )
 {
-  asWavePulse  = (short*) malloc( NUM_SAMPLE_LR_PAIRS * sizeof( short ) * 2 * 2 );
+  asWavePulse  = new short[WAVE_LENGTH];
 
-  memset( asWavePulse,  0, NUM_SAMPLE_LR_PAIRS * sizeof( short ) * 2 * 2 );
+  memset( asWavePulse,  0, WAVE_LENGTH);
 
   //int nSamplesThisChunk = 2048;
   int o = 0;
 
-  short sHi = 16384;
-  short sLo = -16384;
+  const short sHi = 16384;
+  const short sLo = -16384;
 
   // PDS: Multiples of 2048 to make the bigger waveform..
   for( int m = 0; m < 2048; m ++ )
@@ -91,7 +92,7 @@ void BensonSound::CreateBasePulseSample( void )
 void BensonSound::SoundInit( void )
 {
   CreateBasePulseSample();
-  asWaveBenson = (short*) malloc( NUM_SAMPLE_LR_PAIRS * sizeof( short ) * 2 * 2 );
+  asWaveBenson = new short[WAVE_LENGTH];
 }
 
 //--------------------------------------------------------------------------------------------
@@ -100,11 +101,11 @@ void BensonSound::SoundInit( void )
 void BensonSound::SayBensonText( const std::string & text )
 {
   const char *pszText = text.c_str();
-  memset( asWaveBenson,  0, NUM_SAMPLE_LR_PAIRS * sizeof( short ) * 2 * 2 );
+  memset( asWaveBenson,  0, WAVE_LENGTH);
 
   int o = 0;
   int nSamplesPerChar = ( NUM_SAMPLE_LR_PAIRS * 2 ) / 32;
-  int nNumChars       = strlen( pszText );
+  const int nNumChars       = strlen( pszText );
 
   nSamplesPerChar = nSamplesPerChar / 16;
 
@@ -114,8 +115,8 @@ void BensonSound::SayBensonText( const std::string & text )
     if( cIndex >= nNumChars )
       return;
 
-    char  c              = pszText[ cIndex ];
-    float f              = Util::GetCharFreq( c );
+    const char  c              = pszText[ cIndex ];
+    const float f              = Util::GetCharFreq( c );
 
     if( ( c == ' ' ) || ( f < 1.0f ) )
     {
@@ -139,7 +140,7 @@ void BensonSound::SayBensonText( const std::string & text )
 void BensonSound::FillBuffer( short *pChunk, int nSamplesThisChunk )
 {
   //int     nChannels = 2;
-  short  *pWaveSrc = asWaveBenson;
+  const short  *pWaveSrc = asWaveBenson;
 
   if( g_WaveOffset < 0 )
     return;
@@ -201,9 +202,9 @@ void BensonSound::FillBuffer( short *pChunk, int nSamplesThisChunk )
 //--------------------------------------------------------------------------------------------
 static void Callback16( void *userdata, Uint8 *pbStream, int nDataLen )
 {
-  int     nSamples = nDataLen >> 1;
-  int     nRemainingSamples = nSamples;
-  Uint8  *pChunk   = pbStream;
+  const int     nSamples = nDataLen >> 1;
+  const int     nRemainingSamples = nSamples;
+  const Uint8  *pChunk   = pbStream;
 
   BensonSound * benson = static_cast<BensonSound*>(userdata);
   benson->FillBuffer( (short*) pChunk, nRemainingSamples);

@@ -27,6 +27,7 @@ class BensonSound
         int g_WaveOffset = 0;
         static const int NUM_SAMPLE_LR_PAIRS;
         static const int g_NewWaveSize;
+        static const int WAVE_LENGTH;
 };
 
 #endif // BENSONSOUND_H

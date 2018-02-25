@@ -1,14 +1,10 @@
 #include "SDLStuff.h"
 
-#ifdef __linux__
-    #include <SDL/SDL.h>
-    #include <SDL/SDL_audio.h>
-#elif _WIN32
+#ifdef _WIN32
     #include <SDL.h>
-    #include <SDL_audio.h>
     #include <Windows.h>
 #else
-
+    #include <SDL/SDL.h>
 #endif
 
 SDLStuff::SDLStuff()
