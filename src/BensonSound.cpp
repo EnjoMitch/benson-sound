@@ -16,20 +16,18 @@
 
 //extern int  g_Samples;
 
-const int BensonSound::NUM_SAMPLE_LR_PAIRS = (2048 * 256);   // Keep it a multiple of the callback sample buffer size
+const int BensonSound::SAMPLE_SIZE = 2048;
+const int BensonSound::NUM_SAMPLE_LR_PAIRS = (SAMPLE_SIZE * 256);   // Keep it a multiple of the callback sample buffer size
 const int BensonSound::g_NewWaveSize = NUM_SAMPLE_LR_PAIRS;
 const int BensonSound::WAVE_LENGTH = NUM_SAMPLE_LR_PAIRS * sizeof( short ) * 2 * 2;
 
+BensonSound::~BensonSound(){}
 BensonSound::BensonSound(const SDLStuff & sdlStuff)
 : m_sdlStuff(sdlStuff)
 , vecAsWavePulse(WAVE_LENGTH)
 , vecAsWaveBenson(WAVE_LENGTH)
 {
     SoundInit();
-}
-
-BensonSound::~BensonSound()
-{
 }
 
 //char  g_Hello[] = "ARRIVING CONSIDERABLY LATER THAN FORECAST ";
@@ -67,8 +65,8 @@ int BensonSound::BensonFillWavePulseGetIdx(int o, short pulseVal, short * wavePu
 {
     for( int c = 0; c < 64; c ++ )
     {
-      wavePulseToFill[ o ++ ] =  pulseVal;  // L
-      wavePulseToFill[ o ++ ] =  pulseVal;  // R
+      wavePulseToFill[ o ++ ] = pulseVal;  // L
+      wavePulseToFill[ o ++ ] = pulseVal;  // R
     }
     return o;
 }
@@ -204,7 +202,6 @@ static void Callback16( void *userdata, Uint8 *pbStream, int nDataLen )
 void BensonSound::Play()
 {
     SDL_AudioSpec  spec;
-    const int g_Samples = 2048;
   //Uint8         * sound_buffer  = new Uint8[g_Samples * 2 * 2];
   //Uint32 sound_len     = g_Samples * 2 * 2;
 
@@ -213,7 +210,7 @@ void BensonSound::Play()
   //spec.channels = 1;               // PDS: Mono for now..
   spec.channels = 2;               // PDS: Stereo now..
   spec.silence  = 0;
-  spec.samples  = g_Samples;
+  spec.samples  = SAMPLE_SIZE;
   spec.padding  = 0;
   spec.size     = 0;
   spec.userdata = this;

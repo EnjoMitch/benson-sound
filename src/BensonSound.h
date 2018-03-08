@@ -28,6 +28,7 @@ class BensonSound
         std::vector<short> vecAsWaveBenson;
         int g_WaveOffset = 0;
         unsigned dwBackoffStart = 0;
+        static const int SAMPLE_SIZE;
         static const int NUM_SAMPLE_LR_PAIRS;
         static const int g_NewWaveSize;
         static const int WAVE_LENGTH;
