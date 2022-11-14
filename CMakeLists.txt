@@ -9,7 +9,7 @@ file( GLOB SRCS src/*.cpp src/*.h)
 
 add_executable(${PROJECT_NAME} ${SRCS} ${ASM_OBJECTS})
 set_target_properties(${PROJECT_NAME} PROPERTIES LINK_DEPENDS_NO_SHARED true)
-target_link_libraries(${PROJECT_NAME} SDL)
+target_link_libraries(${PROJECT_NAME} ${SDL_LIBRARIES})
 
 # Make sure the compiler can find include files for our Hello library
 # when other libraries or executables link to Hello
