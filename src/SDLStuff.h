@@ -8,7 +8,7 @@ class SDLStuff
         SDLStuff();
         virtual ~SDLStuff();
 
-        void MainLoop() const;
+        void MainLoop(int exitAfterMS = 0) const;
 
     protected:
 
