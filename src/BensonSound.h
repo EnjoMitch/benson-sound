@@ -12,10 +12,10 @@ class BensonSound
         virtual ~BensonSound();
 
         void SayBensonText( const std::string & text ); // string secures code from buffer overflow
-        void Play();
 
         void FillBuffer( unsigned char * pChunk, int nSamplesThisChunk );
 
+        static const int SAMPLE_SIZE;
     protected:
 
     private:
@@ -28,7 +28,7 @@ class BensonSound
         std::vector<short> vecAsWaveBenson;
         int g_WaveOffset = 0;
         unsigned dwBackoffStart = 0;
-        static const int SAMPLE_SIZE;
+
         static const int NUM_SAMPLE_LR_PAIRS;
         static const int g_NewWaveSize;
         static const int WAVE_LENGTH;

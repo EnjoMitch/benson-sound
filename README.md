@@ -13,3 +13,24 @@ http://mercenarysite.free.fr/merce.htm
 
 Or play the games using two available ports:
 http://mercenarysite.free.fr/mddclone.htm
+
+# Compilation
+
+```bash
+mkdir -p build && cd build
+cmake ..
+make
+```
+
+# Usage
+
+```bash
+./benson-sound "word1 word2 word3"
+```
+
+# Demo
+
+```bash
+./benson-sound
+```
+

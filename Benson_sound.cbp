@@ -42,9 +42,10 @@
 		<Unit filename="src/GLRGB.h" />
 		<Unit filename="src/OperatingSystem.cpp" />
 		<Unit filename="src/OperatingSystem.h" />
+		<Unit filename="src/SDLSound.cpp" />
+		<Unit filename="src/SDLSound.h" />
 		<Unit filename="src/SDLStuff.cpp" />
 		<Unit filename="src/SDLStuff.h" />
-		<Unit filename="src/Sound.cpp" />
 		<Unit filename="src/Util.cpp" />
 		<Unit filename="src/Util.h" />
 		<Unit filename="src/mixer3.cpp" />

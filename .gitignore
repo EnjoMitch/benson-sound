@@ -34,4 +34,6 @@
 *.layout
 /bin/*
 /obj/*
+build
+*.log
 

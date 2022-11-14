@@ -1,8 +1,8 @@
 #include "SDLStuff.h"
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(__APPLE__)
     #include <SDL.h>
-    #include <Windows.h>
+//    #include <Windows.h>
 #else
     #include <SDL/SDL.h>
 #endif
@@ -32,7 +32,7 @@ void SDLStuff::Init()
         exit (-1);
 }
 
-void SDLStuff::MainLoop() const
+void SDLStuff::MainLoop(int exitAfterMS) const
 {
   SDL_Event event;
   bool running = true;
@@ -67,5 +67,10 @@ void SDLStuff::MainLoop() const
     }
 
     SDL_Delay(1);
+    if (exitAfterMS > 0)
+    {
+        SDL_Delay(exitAfterMS);
+        running = false;
+    }
   }
 }
