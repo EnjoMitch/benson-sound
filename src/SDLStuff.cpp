@@ -1,6 +1,6 @@
 #include "SDLStuff.h"
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(__APPLE__)
     #include <SDL.h>
     #include <Windows.h>
 #else
