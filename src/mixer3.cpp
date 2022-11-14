@@ -1,11 +1,4 @@
-
 //#include "stdafx.h"
-#ifdef _WIN32
-    #include <SDL.h>
-#else
-    #include <SDL/SDL.h>
-#endif
-
 #include "SDLStuff.h"
 #include "SDLSound.h"
 #include "BensonSound.h"
