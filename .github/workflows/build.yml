@@ -1,0 +1,115 @@
+name: ci/gh-actions/cli
+
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+
+# The below variables reduce repetitions across similar targets
+env:
+  APT_INSTALL_LINUX: 'sudo apt update; sudo apt -y install build-essential cmake ccache libsdl1.2-dev libsdl-mixer1.2-dev'
+  APT_SET_CONF: |
+        echo "Acquire::Retries       \"3\";"   | sudo tee -a /etc/apt/apt.conf.d/80-custom
+        echo "Acquire::http::Timeout \"120\";" | sudo tee -a /etc/apt/apt.conf.d/80-custom
+        echo "Acquire::ftp::Timeout  \"120\";" | sudo tee -a /etc/apt/apt.conf.d/80-custom
+
+jobs:
+  build-ubuntu:
+    runs-on: ubuntu-latest
+    env:
+      CCACHE_COMPRESS: 1
+      CCACHE_TEMPDIR: /tmp/.ccache-temp
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - uses: actions/cache@v2
+      with:
+        path: ~/.ccache
+        key: ccache-${{ runner.os }}-build-${{ github.sha }}
+        restore-keys: ccache-${{ runner.os }}-build-
+    - name: set apt conf
+      run: ${{env.APT_SET_CONF}}
+    - name: install dependencies
+      run: ${{env.APT_INSTALL_LINUX}}
+    - name: build
+      run: |
+        ccache --max-size=150M
+        util/ci-gcc.sh
+
+  build-ubuntu-clang:
+    runs-on: ubuntu-latest
+    env:
+      CCACHE_COMPRESS: 1
+      CCACHE_TEMPDIR: /tmp/.ccache-temp
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - uses: actions/cache@v2
+      with:
+        path: ~/.ccache
+        key: ccache-${{ runner.os }}-build-clang-${{ github.sha }}
+        restore-keys: ccache-${{ runner.os }}-build-clang-
+    - name: set apt conf
+      run: ${{env.APT_SET_CONF}}
+    - name: install dependencies
+      run: ${{env.APT_INSTALL_LINUX}}
+    - name: install clang
+      run: sudo apt -y install clang
+    - name: build
+      run: |
+        ccache --max-size=150M
+        util/ci-clang.sh
+
+  build-windows:
+    runs-on: windows-latest
+    env:
+      CCACHE_COMPRESS: 1
+      CCACHE_TEMPDIR: C:\Users\runneradmin\.ccache-temp
+      CCACHE_DIR: C:\Users\runneradmin\.ccache
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - uses: actions/cache@v2
+      with:
+        path: C:\Users\runneradmin\.ccache
+        key: ccache-${{ runner.os }}-build-${{ github.sha }}
+        restore-keys: ccache-${{ runner.os }}-build-
+    - uses: eine/setup-msys2@v2
+      with:
+        update: true
+        install: mingw-w64-x86_64-toolchain make mingw-w64-x86_64-cmake mingw-w64-x86_64-ccache mingw-w64-x86_64-SDL git
+    - name: build
+      run: |
+        ccache --max-size=150M
+        util/ci-mingw.sh
+
+
+  build-macos:
+    runs-on: macOS-latest
+    env:
+      CCACHE_TEMPDIR: /tmp/.ccache-temp
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    # Volatile cache
+    - name: ccache
+      uses: actions/cache@v2
+      with:
+        path: /Users/runner/Library/Caches/ccache
+        key:          ccache-${{ runner.os }}-build-${{ github.sha }}
+        restore-keys: ccache-${{ runner.os }}-build-
+    - name: install dependencies
+      run: HOMEBREW_NO_AUTO_UPDATE=1 brew install cmake ccache sdl
+    - name: build
+      run: util/ci-clang.sh
+
