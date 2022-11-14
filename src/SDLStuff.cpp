@@ -2,7 +2,7 @@
 
 #if defined(_WIN32) || defined(__APPLE__)
     #include <SDL.h>
-    #include <Windows.h>
+//    #include <Windows.h>
 #else
     #include <SDL/SDL.h>
 #endif
