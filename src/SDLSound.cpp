@@ -1,7 +1,7 @@
 #include "SDLSound.h"
 #include "BensonSound.h"
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(__APPLE__)
     //#include <SDL.h>
     #include <SDL_audio.h>
 #else
