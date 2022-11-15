@@ -92,7 +92,7 @@ jobs:
       run: |
         ccache --max-size=150M
         util/ci-mingw.sh
-        - name: prep minimal
+    - name: prep minimal
       run: |
         ls /mingw64/bin
         libs=""
