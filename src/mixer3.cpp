@@ -4,6 +4,7 @@
 #include "BensonSound.h"
 
 #include <fstream>
+#include <string>
 
 std::ofstream gLog("benson.log");
 //--------------------------------------------------------------------------------------------
@@ -15,10 +16,14 @@ int main( int argc, char* argv[] )
   BensonSound benson(sdl);
   if (argc > 1)
   {
+      const double msPerChar = 25;
     //gLog << "argc = " << argc << ", argv[1] = " << argv[1] << std::endl;
-    benson.SayBensonText( argv[1] );
+    //const std::string text = "012345678901234567890123456789";
+    const std::string text = argv[1];
+    benson.SayBensonText( text );
+    const int msWait = text.size() * msPerChar;
     SDLSound().Play(&benson);
-    sdl.MainLoop(3000);
+    sdl.MainLoop(msWait);
     return EXIT_SUCCESS;
   }
   benson.SayBensonText( "THIS IS A BENSON TEST" );
