@@ -14,7 +14,7 @@ env:
         echo "Acquire::Retries       \"3\";"   | sudo tee -a /etc/apt/apt.conf.d/80-custom
         echo "Acquire::http::Timeout \"120\";" | sudo tee -a /etc/apt/apt.conf.d/80-custom
         echo "Acquire::ftp::Timeout  \"120\";" | sudo tee -a /etc/apt/apt.conf.d/80-custom
-  WIN_INSTALL_PATH: D:/a/benson-sound/benson-sound/build/bin
+  WIN_INSTALL_PATH: D:/a/benson-sound/benson-sound/build/mingw/bin
   
 
 jobs:
