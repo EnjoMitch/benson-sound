@@ -95,7 +95,7 @@ jobs:
     - name: prep minimal
       run: |
         ls /mingw64/bin
-        libs=""
+        libs="libgcc_s_seh-1.dll libstdc++-6.dll SDL.dll"
         for token in ${libs}; do
            cp -v /mingw64/bin/"$token" ${{env.WIN_INSTALL_PATH}}
         done
