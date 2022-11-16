@@ -14,6 +14,8 @@ env:
         echo "Acquire::Retries       \"3\";"   | sudo tee -a /etc/apt/apt.conf.d/80-custom
         echo "Acquire::http::Timeout \"120\";" | sudo tee -a /etc/apt/apt.conf.d/80-custom
         echo "Acquire::ftp::Timeout  \"120\";" | sudo tee -a /etc/apt/apt.conf.d/80-custom
+  WIN_INSTALL_PATH: D:/a/benson-sound/benson-sound/build/mingw/bin
+  
 
 jobs:
   build-ubuntu:
@@ -90,7 +92,23 @@ jobs:
       run: |
         ccache --max-size=150M
         util/ci-mingw.sh
-
+    - name: prep minimal
+      run: |
+        ls /mingw64/bin
+        libs="libgcc_s_seh-1.dll libstdc++-6.dll SDL.dll libwinpthread-1.dll"
+        for token in ${libs}; do
+           cp -v /mingw64/bin/"$token" ${{env.WIN_INSTALL_PATH}}
+        done
+        cp -v LICENSE ${{env.WIN_INSTALL_PATH}}
+        cp -v *.md    ${{env.WIN_INSTALL_PATH}}
+    - uses: actions/upload-artifact@v2
+      with:
+        name: benson-sound-Windows
+        path: |
+          ${{env.WIN_INSTALL_PATH}}/benson-sound.exe
+          ${{env.WIN_INSTALL_PATH}}/LICENSE
+          ${{env.WIN_INSTALL_PATH}}/*.md
+          ${{env.WIN_INSTALL_PATH}}/*.dll
 
   build-macos:
     runs-on: macOS-latest
