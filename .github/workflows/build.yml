@@ -99,8 +99,8 @@ jobs:
         for token in ${libs}; do
            cp -v /mingw64/bin/"$token" ${{env.WIN_INSTALL_PATH}}
         done
-        cp LICENSE ${{env.WIN_INSTALL_PATH}}
-        cp *.md    ${{env.WIN_INSTALL_PATH}}
+        cp -v LICENSE ${{env.WIN_INSTALL_PATH}}
+        cp -v *.md    ${{env.WIN_INSTALL_PATH}}
     - uses: actions/upload-artifact@v2
       with:
         name: benson-sound-Windows
