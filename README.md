@@ -30,7 +30,7 @@ sudo apt install cmake libsdl1.2-dev
 ### Mac OSX
 
 ```bash
-brew install cmake ccache sdl
+brew install cmake sdl
 ```
 
 ### MinGW
