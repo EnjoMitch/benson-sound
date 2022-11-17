@@ -14,12 +14,40 @@ http://mercenarysite.free.fr/merce.htm
 Or play the games using two available ports:
 http://mercenarysite.free.fr/mddclone.htm
 
-# Compilation
+# Building
+
+## Installing dependencies 
+
+Reqires the SDL 1.2 library. 
+Installation instructions:
+
+### Ubuntu / Debian / derrivative
+
+```bash
+sudo apt install cmake libsdl1.2-dev
+```
+
+### Mac OSX
+
+```bash
+brew install cmake sdl
+```
+
+### MinGW
+
+Requires to be installed via GUI:
+
+```bash
+mingw-w64-x86_64-toolchain make mingw-w64-x86_64-cmake mingw-w64-x86_64-SDL
+```
+
+## Compilation
 
 ```bash
 mkdir -p build && cd build
 cmake ..
 make
+make install # installs locally
 ```
 
 # Usage
