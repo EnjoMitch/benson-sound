@@ -27,9 +27,12 @@ void SDLStuff::Init()
     if (SDL_Init (SDL_INIT_VIDEO|SDL_INIT_AUDIO) < 0)
         exit (-1);
     atexit (SDL_Quit);
+    // No window by default
+    /*
     screen = SDL_SetVideoMode (640, 480, 16, SDL_HWSURFACE);
     if (screen == NULL)
         exit (-1);
+    */
 }
 
 void SDLStuff::MainLoop(int exitAfterMS) const
