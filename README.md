@@ -57,7 +57,7 @@ make install # installs locally
 ```
 
 ```bash
-benson.sh "abcdefghijklmnopqrstuwxyz"; benson.sh "zywutsrqponmlkjihgfedcba"
+./benson-sound "abcdefghijklmnopqrstuwxyz"; ./benson-sound "zywutsrqponmlkjihgfedcba"
 ```
 
 # Demo
