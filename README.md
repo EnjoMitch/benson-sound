@@ -56,6 +56,10 @@ make install # installs locally
 ./benson-sound "word1 word2 word3"
 ```
 
+```bash
+benson.sh "abcdefghijklmnopqrstuwxyz"; benson.sh "zywutsrqponmlkjihgfedcba"
+```
+
 # Demo
 
 ```bash
