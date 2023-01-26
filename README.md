@@ -55,6 +55,7 @@ make install # installs locally
 ```bash
 ./benson-sound "word1 word2 word3"
 ```
+A proof, that each of the letters have a fixed and individual tone:
 
 ```bash
 ./benson-sound "abcdefghijklmnopqrstuwxyz"; ./benson-sound "zywutsrqponmlkjihgfedcba"
